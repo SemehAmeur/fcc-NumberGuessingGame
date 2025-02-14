@@ -13,14 +13,16 @@ do
   if [[ -z $USER_NAME ]]
   then
     USER_NAME=$($PSQL "INSERT INTO users(username) VALUES('$USERNAME');")
-    echo -e "Welcome, $USERNAME! It looks like this is your first time here."
+    echo "Welcome, $USERNAME! It looks like this is your first time here."
   else
     USERNAME=$USER_NAME
-    echo -e "\nWelcome back, $USERNAME! You have played $GAME_PLAYED games, and your best game took $BEST_GAME guesses."
+    echo "Welcome back, $USERNAME! You have played $GAME_PLAYED games, and your best game took $BEST_GAME guesses."
   fi
 done
 
 echo "Guess the secret number between 1 and 1000:"
+
+NUMBER_OF_GUESS=0
 
 while true
 do
@@ -28,8 +30,19 @@ do
 
   if [[ "$INPUT_NUMBER" =~ ^[0-9]+$ ]]
   then
-    echo "number"
-    break
+    (( NUMBER_OF_GUESS++ ))
+    if [[ $INPUT_NUMBER -eq $RANDOM_NUMBER ]]
+    then
+      echo -e "You guessed it in $NUMBER_OF_GUESS tries. The secret number was $RANDOM_NUMBER. Nice job!"
+      break
+    else
+      if [[ $INPUT_NUMBER -lt $RANDOM_NUMBER ]]
+      then
+        echo "It's higher than that, guess again:"
+      else
+        echo "It's lower than that, guess again:"
+      fi
+    fi
   else
     echo "That is not an integer, guess again:"
   fi
