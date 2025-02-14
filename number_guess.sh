@@ -18,5 +18,19 @@ do
     USERNAME=$USER_NAME
     echo -e "\nWelcome back, $USERNAME! You have played $GAME_PLAYED games, and your best game took $BEST_GAME guesses."
   fi
-  
+done
+
+echo "Guess the secret number between 1 and 1000:"
+
+while true
+do
+  read INPUT_NUMBER
+
+  if [[ "$INPUT_NUMBER" =~ ^[0-9]+$ ]]
+  then
+    echo "number"
+    break
+  else
+    echo "That is not an integer, guess again:"
+  fi
 done
