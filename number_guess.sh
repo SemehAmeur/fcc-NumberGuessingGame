@@ -47,3 +47,16 @@ do
     echo "That is not an integer, guess again:"
   fi
 done
+
+if [[ -z $BEST_GAME ]]
+then
+  BEST_GAME=$NUMBER_OF_GUESS
+else
+  if [[ $NUMBER_OF_GUESS -lt $BEST_GAME ]]
+  then
+    BEST_GAME=$NUMBER_OF_GUESS
+  fi
+fi
+
+(( GAME_PLAYED++ ))
+INSERT_QUERY=$($PSQL "UPDATE users SET game_played=$GAME_PLAYED, best_game=$BEST_GAME WHERE username='$USERNAME';")
